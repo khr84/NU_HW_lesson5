@@ -25,7 +25,6 @@ def account_function():
             sum_add = get_sum('', 'Введите сумму пополнения: ')
             sum_account += sum_add
             list_buy.append(add_buy(sum_add))
-
         elif choice == '2':
             sum_buy = get_sum('', 'Введите сумму покупки: ')
             if sum_buy > sum_account:
