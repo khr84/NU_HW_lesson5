@@ -1,14 +1,6 @@
 import os
 import shutil
-from datetime import datetime
-from account import add_buy
 from dir_functions import check_path, del_path, copy_path
-
-def test_add_buy():
-    now = datetime.now()
-    assert add_buy(100) == (now.strftime("%d/%m/%Y %H:%M:%S"), 'пополнение', 100)
-    assert add_buy(-200, 'food') == (now.strftime("%d/%m/%Y %H:%M:%S"), 'food', -200)
-    assert add_buy(1000, 'game') == (now.strftime("%d/%m/%Y %H:%M:%S"), 'game', 1000)
 
 def test_check_path():
     assert check_path('111') == False
