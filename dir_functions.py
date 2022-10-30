@@ -17,10 +17,34 @@ def get_list_dir(data = ''):
     else:
         return(list_dir)
 
+def del_path(path_del):
+    path_del_type = ''
+    if os.path.isfile(path_del):
+        path_del_type = 'файл'
+        os.remove(path_del)
+    elif os.path.isdir(path_del):
+        path_del_type = 'папка'
+        shutil.rmtree(path_del)
+    return(path_del_type)
+
+def copy_path(path_from, path_to):
+    path_copy_type = ''
+    if os.path.isfile(path_from):
+        path_copy_type = 'файл'
+        # копируем файл в указанную директорию
+        shutil.copy(path_from, path_to)
+    elif os.path.isdir(path_from):
+        path_copy_type = 'папка'
+        # копируем папки в указанную директорию
+        shutil.copytree(path_from, path_to)
+    return(path_copy_type)
+
+def check_path(path_for_check):
+    return(path_for_check[0] in ['\\', '/']  or path_for_check[-1] in ['\\', '/'])
 
 def work_with_dir(work_type):
     path_dir = input('Введите имя папки или файла: ')
-    if path_dir[0] in ['\\', '/']  or path_dir[-1] in ['\\', '/']:
+    if check_path(path_dir):
         print('Неверно указан путь: разделителя не должно быть в начале или в конце')
     else:
         path_dir = os.path.join(os.getcwd(), path_dir)
@@ -36,19 +60,15 @@ def work_with_dir(work_type):
             if not os.path.exists(path_dir):
                 print('Такой папки/файла не существует')
             else:
-                if os.path.isfile(path_dir):
-                    os.remove(path_dir)
-                    print(f'Удален файл {path_dir}')
-                elif os.path.isdir(path_dir):
-                    shutil.rmtree(path_dir)
-                    print(f'Удалена папка {path_dir}')
+                path_type = del_path(path_dir)
+                print(f'Удален(а) {path_type} {path_dir}')
         # копирование папки/файла
         elif work_type == 'copy':
             if not os.path.exists(path_dir):
                 print('Такая папка/файл не существует')
             else:
                 path_goal = input('Введите папку/файл куда надо скопировать: ')
-                if path_goal[0] in ['\\','/'] or path_goal[-1] in ['\\','/']:
+                if check_path(path_goal):
                     print('Неверно указан путь: разделителя не должно быть в начале или в конце')
                 else:
                     path_goal = os.path.join(os.getcwd(), path_goal)
@@ -59,10 +79,5 @@ def work_with_dir(work_type):
                     elif not os.path.exists(os.path.split(path_goal)[0]):
                         print(f'Не существует целевой папки {os.path.split(path_goal)[0]}')
                     else:
-                        if os.path.isfile(path_dir):
-                            shutil.copy(path_dir, path_goal)
-                            print(f'Файл {path_dir} скопирован в {path_goal}')
-                        elif os.path.isdir(path_dir):
-                            # копируем папки в указанную директорию
-                            shutil.copytree(path_dir, path_goal)
-                            print(f'Папка {path_dir} скопирована в {path_goal}')
+                        path_type = copy_path(path_dir, path_goal)
+                        print(f'{path_type} {path_dir} скопирован(а) в {path_goal}')
