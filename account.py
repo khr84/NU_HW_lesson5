@@ -11,14 +11,14 @@ def write_file(dict_to_file, file_name):
     with open(file_name, 'a') as f:
         json_to_file = json.dumps(dict_to_file)
         f.write(f'{json_to_file}\n')
-def read_sum_file():
-    if not os.path.exists(os.path.join(os.getcwd(), 'account.json')):
+def read_sum_file(file_name):
+    if not os.path.exists(os.path.join(os.getcwd(), file_name)):
         now = datetime.now()
-        write_file({'date': now.strftime("%d/%m/%Y %H:%M:%S"), 'sum': 0}, 'account.json')
+        write_file({'date': now.strftime("%d/%m/%Y %H:%M:%S"), 'sum': 0}, file_name)
         return(0)
     else:
         f_list = []
-        with open('account.json', 'r') as f:
+        with open(file_name, 'r') as f:
             for line in f:
                 f_list.append(line)
         f_str = json.loads(f_list[-1])
@@ -26,7 +26,7 @@ def read_sum_file():
 
 def account_function():
     # sum_account = 0
-    sum_account = read_sum_file()
+    sum_account = read_sum_file('account.json')
     list_buy = []
     while True:
 

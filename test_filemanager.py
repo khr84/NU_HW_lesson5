@@ -1,6 +1,8 @@
 import os
 import shutil
-from dir_functions import check_path, del_path, copy_path
+import json
+from dir_functions import get_list_dir, check_path, del_path, copy_path, write_list_dir_file
+from account import write_file, read_sum_file
 
 def test_check_path():
     assert check_path('111') == False
@@ -44,3 +46,34 @@ def test_copy_path():
     shutil.rmtree(os.path.join(os.getcwd(), '333'))
     os.remove(os.path.join(os.getcwd(), 'text.txt'))
     os.remove(os.path.join(os.getcwd(), 'text2.txt'))
+
+def test_write_read_file():
+    write_file({'test_str':'значение', 'sum': 100}, 'test_write_file.txt')
+    assert os.path.exists(os.path.join(os.getcwd(), 'test_write_file.txt'))
+    with open('test_write_file.txt', 'r') as f:
+        data_str = json.loads(f.read())
+        assert data_str == {'test_str':'значение', 'sum': 100}
+    assert read_sum_file('test_write_file.txt') == 100
+    # delete
+    os.remove('test_write_file.txt')
+
+def test_write_list_dir():
+    write_list_dir_file()
+    assert os.path.exists(os.path.join(os.getcwd(), 'listdir.txt'))
+    with open('listdir.txt', 'r') as f:
+        for i in range(2):
+            str_file = f.readline()
+            str_file = str_file.replace('\n', '')
+            if i == 0:
+                list_dir = get_list_dir('file')
+                list_dir.sort()
+                assert list_dir == str_file.replace('files: ', '').split(', ')
+            elif i == 1:
+                list_dir = get_list_dir('dir')
+                list_dir.sort()
+                assert list_dir == str_file.replace('dirs: ', '').split(', ')
+    #delete
+    os.remove('listdir.txt')
+
+
+
