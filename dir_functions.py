@@ -22,33 +22,18 @@ def write_list_dir_file():
         for element in ['file','dir']:
             list_dir = get_list_dir(element)
             list_dir.sort()
-            if element == 'file':
-                str_begin = 'files:'
-            else:
-                str_begin = '\ndirs:'
+            str_begin = 'files:' if element == 'file' else '\ndirs:'
             str_list_dir = str_begin + ''.join(map(lambda x: f' {x},', list_dir)).rstrip(',')
             f.write(str_list_dir)
 
 def del_path(path_del):
-    path_del_type = ''
-    if os.path.isfile(path_del):
-        path_del_type = 'файл'
-        os.remove(path_del)
-    elif os.path.isdir(path_del):
-        path_del_type = 'папка'
-        shutil.rmtree(path_del)
+    path_del_type = 'файл' if os.path.isfile(path_del) else 'папка'
+    os.remove(path_del) if os.path.isfile(path_del) else shutil.rmtree(path_del)
     return(path_del_type)
 
 def copy_path(path_from, path_to):
-    path_copy_type = ''
-    if os.path.isfile(path_from):
-        path_copy_type = 'файл'
-        # копируем файл в указанную директорию
-        shutil.copy(path_from, path_to)
-    elif os.path.isdir(path_from):
-        path_copy_type = 'папка'
-        # копируем папки в указанную директорию
-        shutil.copytree(path_from, path_to)
+    path_copy_type = 'файл' if os.path.isfile(path_from) else 'папка'
+    shutil.copy(path_from, path_to) if os.path.isfile(path_from) else shutil.copytree(path_from, path_to)
     return(path_copy_type)
 
 def check_path(path_for_check):
