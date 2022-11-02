@@ -15,8 +15,8 @@ def test_del_path():
     os.makedirs(path_dir)
     assert del_path(path_dir) == 'папка'
     path_dir = os.path.join(os.getcwd(), 'text.txt')
-    f = open(path_dir, 'tw', encoding='utf-8')
-    f.close()
+    with open(path_dir, 'w', encoding='utf-8') as f:
+        f.write('tt')
     assert del_path(path_dir) == 'файл'
     assert '111' not in os.listdir(os.getcwd())
     assert 'text.txt' not in os.listdir(os.getcwd())
@@ -48,11 +48,11 @@ def test_copy_path():
     os.remove(os.path.join(os.getcwd(), 'text2.txt'))
 
 def test_write_read_file():
-    write_file({'test_str':'значение', 'sum': 100}, 'test_write_file.txt')
+    write_file('test_write_file.txt', {'test_str':'значение', 'sum': 100})
     assert os.path.exists(os.path.join(os.getcwd(), 'test_write_file.txt'))
     with open('test_write_file.txt', 'r') as f:
         data_str = json.loads(f.read())
-        assert data_str == {'test_str':'значение', 'sum': 100}
+        assert data_str['data'] == {'test_str':'значение', 'sum': 100}
     assert read_sum_file('test_write_file.txt') == 100
     # delete
     os.remove('test_write_file.txt')
