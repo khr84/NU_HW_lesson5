@@ -1,6 +1,6 @@
 import os
 import sys
-from dir_functions import get_list_dir, work_with_dir
+from dir_functions import get_list_dir, work_with_dir, write_list_dir_file
 from victory import game_victory
 from account import account_function
 
@@ -11,11 +11,12 @@ while True:
     print('4. Просмотр рабочей директории')
     print('5. Просмотр папок рабочей директории')
     print('6. Просмотр файлов рабочей директории')
-    print('7. Просмотр информации об ОС')
-    print('8. Создатель программы')
-    print('9. Играть в викторину')
-    print('10. Мой банковский счет')
-    print('11. Выход')
+    print('7. Сохранить содержимое рабочей папки в файл')
+    print('8. Просмотр информации об ОС')
+    print('9. Создатель программы')
+    print('10. Играть в викторину')
+    print('11. Мой банковский счет')
+    print('12. Выход')
 
     choise = input('Выберите пункт меню: ')
 
@@ -32,14 +33,16 @@ while True:
     elif choise == '6':
         print(get_list_dir('file'))
     elif choise == '7':
-        print('My OS is', sys.platform, '(', os.name, ')')
+        write_list_dir_file()
     elif choise == '8':
-        print('автор: Хуснутдинов Роман (KHR84)')
+        print('My OS is', sys.platform, '(', os.name, ')')
     elif choise == '9':
-        game_victory()
+        print('автор: Хуснутдинов Роман (KHR84)')
     elif choise == '10':
-        account_function()
+        game_victory()
     elif choise == '11':
+        account_function()
+    elif choise == '12':
         break
     else:
         print('Введен неверный пункт')

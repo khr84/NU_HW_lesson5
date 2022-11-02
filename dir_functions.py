@@ -17,6 +17,18 @@ def get_list_dir(data = ''):
     else:
         return(list_dir)
 
+def write_list_dir_file():
+    with open('listdir.txt', 'w') as f:
+        for element in ['file','dir']:
+            list_dir = get_list_dir(element)
+            list_dir.sort()
+            if element == 'file':
+                str_begin = 'files:'
+            else:
+                str_begin = '\ndirs:'
+            str_list_dir = str_begin + ''.join(map(lambda x: f' {x},', list_dir)).rstrip(',')
+            f.write(str_list_dir)
+
 def del_path(path_del):
     path_del_type = ''
     if os.path.isfile(path_del):
